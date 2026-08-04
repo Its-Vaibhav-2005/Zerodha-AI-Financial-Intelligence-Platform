@@ -1,0 +1,65 @@
+# ==========================================
+# Environment & Secrets (CRITICAL)
+# ==========================================
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ==========================================
+# Operating System & IDE
+# ==========================================
+.DS_Store
+Thumbs.db
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea/
+
+# ==========================================
+# Python (Backend, AI Workflows, MCP Server)
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
+# ==========================================
+# Frontend (Node / JS / Frameworks)
+# ==========================================
+node_modules/
+/frontend/dist/
+/frontend/build/
+/frontend/.next/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ==========================================
+# Data & Models (Avoid committing large artifacts)
+# ==========================================
+data/*.csv
+data/*.json
+data/*.sqlite3
+data/*.db
+data/raw/
+data/processed/
+!data/.gitkeep
+
+# ML Checkpoints / Models
+*.onnx
+*.safetensors
+*.bin
+*.h5
+*.pt
+*.pth
