@@ -1,0 +1,134 @@
+{
+  "protocol_version": "2025-06-18",
+  "server_name": "zerodha-financial-mcp-server",
+  "description": "Governed MCP Tool Registry for Zerodha AI Financial Intelligence Platform",
+  "tools": [
+    {
+      "name": "lookup_portfolio",
+      "description": "Fetches normalized holdings, risk profile, and investment snapshot for a given portfolio ID.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "portfolio_id": {
+            "type": "string",
+            "description": "Portfolio unique identifier (e.g., 'PORT-1001')"
+          }
+        },
+        "required": ["portfolio_id"]
+      },
+      "category": "portfolio"
+    },
+    {
+      "name": "validate_portfolio_completeness",
+      "description": "Validates if portfolio holdings data has all required fields (symbol, shares, avg_buy_price, current_price) to compute accurate analytics.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "holdings": {
+            "type": "array",
+            "description": "List of portfolio holding items"
+          }
+        },
+        "required": ["holdings"]
+      },
+      "category": "portfolio"
+    },
+    {
+      "name": "fetch_market_quotes",
+      "description": "Fetches real-time price, day high/low, and 52-week statistics for Indian stock symbols.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "symbols": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "List of stock symbols (e.g. ['TCS.NS', 'INFY.NS', 'RELIANCE.NS'])"
+          }
+        },
+        "required": ["symbols"]
+      },
+      "category": "market"
+    },
+    {
+      "name": "fetch_historical_ohlc",
+      "description": "Fetches candlestick historical price series for a symbol over a requested timeframe.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Ticker symbol (e.g., '^NSEI', 'TCS.NS')"
+          },
+          "period": {
+            "type": "string",
+            "enum": ["1d", "1wk", "1mo", "3mo", "6mo", "1y"],
+            "description": "Historical time period"
+          }
+        },
+        "required": ["symbol"]
+      },
+      "category": "market"
+    },
+    {
+      "name": "fetch_ticker_sentiment_news",
+      "description": "Retrieves recent news signals and sentiment headlines for a specific stock ticker.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Stock symbol (e.g. 'TCS.NS')"
+          }
+        },
+        "required": ["symbol"]
+      },
+      "category": "news"
+    },
+    {
+      "name": "compute_portfolio_metrics",
+      "description": "Computes deterministic analytics including sector concentration, drawdown, volatility, stock contribution, and benchmark beta.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "portfolio_id": {
+            "type": "string",
+            "description": "Portfolio unique ID"
+          },
+          "benchmark": {
+            "type": "string",
+            "description": "Benchmark index symbol (default '^NSEI')"
+          },
+          "force_refresh": {
+            "type": "boolean",
+            "description": "Whether to bypass cached market data"
+          }
+        },
+        "required": ["portfolio_id"]
+      },
+      "category": "analytics"
+    },
+    {
+      "name": "calculate_risk_alerts",
+      "description": "Evaluates sector concentration, drawdown thresholds, and volatility levels to generate governed risk warnings.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "sector_allocation": {
+            "type": "object",
+            "description": "Map of sector names to percentage weights"
+          },
+          "volatility_pct": {
+            "type": "number",
+            "description": "Annualized portfolio volatility percentage"
+          },
+          "max_drawdown_pct": {
+            "type": "number",
+            "description": "Maximum portfolio drawdown percentage"
+          }
+        },
+        "required": ["sector_allocation", "volatility_pct", "max_drawdown_pct"]
+      },
+      "category": "analytics"
+    }
+  ]
+}

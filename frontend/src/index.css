@@ -1,45 +1,36 @@
 @import "tailwindcss";
 
 :root {
-  /* Design System Color Tokens (Dark Obsidian Base) */
-  --bg-base: #0a0d14;            /* 60% Base Obsidian Background */
-  --bg-surface: #121624;         /* 30% Card & Structural Surface */
-  --bg-surface-hover: #1a2035;   /* Surface Hover */
-  --bg-input: #161b2e;           /* Input & Badge Surface */
-  --border-subtle: #222b42;      /* Structural Borders */
-  --border-highlight: #3b82f6;   /* Active/Hover Borders */
+  /* High-End Fintech Design Tokens (Dark Obsidian Base) */
+  --bg-base: #07090e;            /* Deep Obsidian Canvas */
+  --bg-surface: #0f131d;         /* Premium Card & Structural Surface */
+  --bg-surface-hover: #161b29;   /* Smooth Hover Elevation */
+  --bg-input: #141926;           /* Form & Input Surface */
+  --border-subtle: #1e2638;      /* Precise Micro-borders */
+  --border-highlight: #3b82f6;   /* Active / Focus Accent */
   
-  --text-primary: #f8fafc;       /* Main Headlines */
-  --text-secondary: #94a3b8;     /* Body & Subheaders */
-  --text-muted: #64748b;         /* Captions & Labels */
+  --text-primary: #f8fafc;       /* Ultra-clean Headlines */
+  --text-secondary: #94a3b8;     /* Refined Body & Labels */
+  --text-muted: #64748b;         /* Subtle Metadata & Hints */
 
-  /* Design System Palette Colors */
+  /* High-Impact Accent Palette */
   --color-green-primary: #00e676;
-  --color-green-muted: #10b981;
+  --color-green-glow: rgba(0, 230, 118, 0.25);
   --color-purple-secondary: #8b5cf6;
-  --color-purple-light: #a78bfa;
+  --color-purple-glow: rgba(139, 92, 246, 0.25);
   --color-red-tertiary: #ff5252;
-  --color-red-light: #f87171;
   --color-blue-comp1: #3b82f6;
-  --color-blue-light: #60a5fa;
   --color-yellow-comp2: #fbbf24;
-  --color-yellow-light: #fcd34d;
-
-  /* Legacy Fallback Mappings */
-  --accent-blue: #3b82f6;
-  --accent-orange: #fbbf24;
-  --accent-emerald: #00e676;
-  --accent-rose: #ff5252;
 }
 
-/* Light Theme Overrides */
+/* Light Mode Overrides */
 .light {
   --bg-base: #f8fafc;
   --bg-surface: #ffffff;
   --bg-surface-hover: #f1f5f9;
-  --bg-input: #e2e8f0;
+  --bg-input: #f1f5f9;
   --border-subtle: #e2e8f0;
-  --border-highlight: #cbd5e1;
+  --border-highlight: #3b82f6;
 
   --text-primary: #0f172a;
   --text-secondary: #334155;
@@ -50,52 +41,50 @@
   --color-red-tertiary: #dc2626;
   --color-blue-comp1: #2563eb;
   --color-yellow-comp2: #d97706;
-
-  --accent-blue: #2563eb;
-  --accent-orange: #d97706;
-  --accent-emerald: #059669;
-  --accent-rose: #dc2626;
 }
 
 body {
   background-color: var(--bg-base);
   color: var(--text-primary);
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-x: hidden;
+  letter-spacing: -0.01em;
 }
 
 /* Custom Scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-base);
 }
 ::-webkit-scrollbar-thumb {
   background: var(--border-subtle);
-  border-radius: 3px;
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--border-highlight);
 }
 
-/* Surface Cards & Geometric Aesthetics */
+/* Fintech Surface Cards & Glassmorphism */
 .surface-card {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: 1.25rem;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.25);
 }
 
 .surface-card-hover:hover {
   background-color: var(--bg-surface-hover);
-  border-color: rgba(59, 130, 246, 0.4);
-  box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.3);
+  border-color: rgba(59, 130, 246, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.45);
 }
 
 /* Design System Pill Badges */
@@ -107,37 +96,38 @@ body {
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 600;
+  letter-spacing: 0.02em;
   transition: all 0.2s ease;
 }
 
 .pill-green {
-  background-color: rgba(0, 230, 118, 0.12);
-  border: 1px solid rgba(0, 230, 118, 0.3);
+  background-color: rgba(0, 230, 118, 0.1);
+  border: 1px solid rgba(0, 230, 118, 0.25);
   color: var(--color-green-primary);
 }
 
 .pill-purple {
-  background-color: rgba(139, 92, 246, 0.12);
-  border: 1px solid rgba(139, 92, 246, 0.3);
-  color: var(--color-purple-light);
+  background-color: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  color: #a78bfa;
 }
 
 .pill-red {
-  background-color: rgba(255, 82, 82, 0.12);
-  border: 1px solid rgba(255, 82, 82, 0.3);
+  background-color: rgba(255, 82, 82, 0.1);
+  border: 1px solid rgba(255, 82, 82, 0.25);
   color: var(--color-red-tertiary);
 }
 
 .pill-blue {
-  background-color: rgba(59, 130, 246, 0.12);
-  border: 1px solid rgba(59, 130, 246, 0.3);
-  color: var(--color-blue-light);
+  background-color: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  color: #60a5fa;
 }
 
 .pill-yellow {
-  background-color: rgba(251, 191, 36, 0.12);
-  border: 1px solid rgba(251, 191, 36, 0.3);
-  color: var(--color-yellow-light);
+  background-color: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  color: #fcd34d;
 }
 
 /* Primary Action Buttons */
@@ -146,12 +136,12 @@ body {
   color: #041a10;
   font-weight: 700;
   border-radius: 0.875rem;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 14px rgba(0, 230, 118, 0.25);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(0, 230, 118, 0.28);
 }
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(0, 230, 118, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 230, 118, 0.42);
 }
 
 /* Secondary Action Buttons */
@@ -160,15 +150,30 @@ body {
   border: 1px solid var(--border-subtle);
   color: var(--text-primary);
   border-radius: 0.875rem;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .btn-secondary:hover {
   background: var(--bg-surface-hover);
-  border-color: var(--color-purple-secondary);
-  color: var(--color-purple-light);
+  border-color: rgba(139, 92, 246, 0.5);
+  color: #a78bfa;
 }
 
-/* Shimmer Pulse for Loaders */
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 @keyframes shimmer {
   0% {
     background-position: -200% 0;
@@ -179,7 +184,7 @@ body {
 }
 
 .animate-shimmer {
-  background: linear-gradient(90deg, var(--bg-surface) 25%, var(--bg-surface-hover) 50%, var(--bg-surface) 75%);
+  background: linear-gradient(90deg, var(--bg-surface) 25%, var(--bg-surface-hover) 50%, var(--bg-surface) 25%);
   background-size: 200% 100%;
   animation: shimmer 1.8s infinite;
 }

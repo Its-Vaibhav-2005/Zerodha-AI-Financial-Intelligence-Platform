@@ -7,6 +7,7 @@ import SkeletonLoader from './SkeletonLoader';
 import FallbackState from './FallbackState';
 import RelativePerformanceCard from './RelativePerformanceCard';
 import InsightFeedbackBar from './feedback/InsightFeedbackBar';
+import ExplainableRecommendationCards from './recommendations/ExplainableRecommendationCards';
 import { useAuth } from '../context/AuthContext';
 import { RefreshCw, Sparkles, AlertTriangle, Zap } from 'lucide-react';
 
@@ -20,16 +21,19 @@ const MOCK_FALLBACK_DATA = {
         {
           symbol: "TCS.NS",
           impact: "POSITIVE",
+          pnl_contribution: "+18.2%",
           explanation: "Tata Consultancy Services reported record deal wins in cloud transformation and AI integration, driving double-digit P&L growth."
         },
         {
           symbol: "INFY.NS",
           impact: "POSITIVE",
+          pnl_contribution: "+12.1%",
           explanation: "Infosys exceeded annual operating margin guidance, acting as a major positive contributor to portfolio valuation."
         },
         {
           symbol: "RELIANCE.NS",
           impact: "NEGATIVE",
+          pnl_contribution: "-0.9%",
           explanation: "Oil-to-chemicals refining margin pressure posted minor unrealized headwinds on non-technology holdings."
         }
       ],
@@ -39,8 +43,55 @@ const MOCK_FALLBACK_DATA = {
           "Sector Concentration Risk: Technology assets represent 81.68% of total equity holdings.",
           "Historical Peak Drawdown Exposure: Historical maximum drawdown reached -14.2% during tech sector pullbacks."
         ],
-        mitigation_context: "Over-weighting in a single industry elevates portfolio standard deviation. Gradual dollar-cost averaging into FMCG or Banking assets is recommended to cushion macro volatility."
+        mitigation_context: "Over-weighting in a single industry elevates portfolio standard deviation. Gradual dollar-cost averaging into FMCG or Banking assets is recommended to cushion macro volatility.",
+        portfolio_beta_context: "Portfolio Beta is 1.18 relative to NIFTY 50."
       },
+      recommendation_cards: [
+        {
+          id: "REC-01",
+          category: "Risk Attention",
+          title: "Technology Allocation Exceeds 40% Prudential Threshold",
+          signal: "Heavy Concentration Alert (81.68% Tech Exposure)",
+          rationale: "Technology stocks comprise over four-fifths of equity capital. A single regulatory or global tech demand contraction will disproportionately affect net worth.",
+          supporting_metrics: ["Tech Allocation: 81.68%", "Volatility: 24.8%"],
+          suggested_review_action: "Examine rebalancing options to cap technology exposure under 35% of total portfolio value.",
+          confidence: 0.96,
+          disclaimer: "Educational risk analysis only; not SEBI-registered individualized advice."
+        },
+        {
+          id: "REC-02",
+          category: "Diversification Review",
+          title: "Asset Allocation & Defensive Balancing",
+          signal: "Broad-Market Multi-Asset SIP Strategy",
+          rationale: "Adding exposure in banking, FMCG, and hybrid balanced funds cushions sharp sector-specific drawdowns.",
+          supporting_metrics: ["Beta: 1.18", "Historical Max Drawdown: 14.2%"],
+          suggested_review_action: "Allocate upcoming SIP flows into large-cap index funds or flexi-cap funds.",
+          confidence: 0.94,
+          disclaimer: "Educational risk analysis only; not SEBI-registered individualized advice."
+        },
+        {
+          id: "REC-03",
+          category: "Watchlist & Catalyst Monitoring",
+          title: "Upcoming Q4 Earnings & Cloud Guidance",
+          signal: "TCS & Infosys Earnings Calendar",
+          rationale: "Management commentary on North American IT deal ramp-ups will determine short-to-medium term trajectory.",
+          supporting_metrics: ["Institutional Volume Surge", "Deal Pipeline > $1B"],
+          suggested_review_action: "Set price alert thresholds around support levels on Kite.",
+          confidence: 0.92,
+          disclaimer: "Educational risk analysis only; not SEBI-registered individualized advice."
+        },
+        {
+          id: "REC-04",
+          category: "Portfolio Rebalancing Follow-up",
+          title: "Disciplined Quarterly Profit Realignment",
+          signal: "Unrealized Gain Locking Strategy",
+          rationale: "With +29.42% net unrealized gain, locking a portion of tech outperformance into defensive debt preserves compounding.",
+          supporting_metrics: ["Total P&L: ₹1,32,400", "Net Return: +29.42%"],
+          suggested_review_action: "Schedule periodic quarterly rebalancing check.",
+          confidence: 0.97,
+          disclaimer: "Educational risk analysis only; not SEBI-registered individualized advice."
+        }
+      ],
       confidence_score: 0.96
     },
     summary: {
@@ -61,115 +112,8 @@ const MOCK_FALLBACK_DATA = {
     risk_metrics: {
       annualized_volatility_pct: 24.8,
       max_drawdown_pct: 14.2,
+      portfolio_beta: 1.18,
       risk_flag: "HIGH"
-    }
-  },
-  "PORT-1002": {
-    status: "success",
-    portfolio_id: "PORT-1002",
-    insights: {
-      executive_summary: "Balanced conservative portfolio yielding a stable +17.85% return across large-cap financial services and consumer goods, displaying low drawdowns and defensive positioning.",
-      key_performance_drivers: [
-        {
-          symbol: "HDFCBANK.NS",
-          impact: "POSITIVE",
-          explanation: "HDFC Bank deposit growth and net interest margin recovery bolstered financial sector returns."
-        },
-        {
-          symbol: "ITC.NS",
-          impact: "POSITIVE",
-          explanation: "ITC agribusiness and FMCG expansion provided reliable dividend yield and capital appreciation."
-        },
-        {
-          symbol: "LT.NS",
-          impact: "POSITIVE",
-          explanation: "Larsen & Toubro international infrastructure order inflows drove steady industrial outperformance."
-        }
-      ],
-      risk_analysis: {
-        risk_level: "LOW",
-        primary_risks: [
-          "Interest Rate Sensitivity: Financial services exposure is vulnerable to central bank rate adjustments.",
-          "Moderate Concentration: Financials account for 48.2% of current allocation."
-        ],
-        mitigation_context: "Diversified exposure across Banking, FMCG, and Construction provides strong downside protection during broader market corrections."
-      },
-      confidence_score: 0.98
-    },
-    summary: {
-      total_invested: 386200.00,
-      total_current_value: 455140.00,
-      total_pnl: 68940.00,
-      pnl_pct: 17.85
-    },
-    metadata: {
-      portfolio_id: "PORT-1002",
-      investor_name: "Rahul Sharma",
-      risk_profile: "Moderate Bluechip"
-    },
-    sector_allocation: {
-      "Financial Services": 48.20,
-      "Consumer Goods": 28.50,
-      "Construction": 23.30
-    },
-    risk_metrics: {
-      annualized_volatility_pct: 13.5,
-      max_drawdown_pct: 6.8,
-      risk_flag: "LOW"
-    }
-  },
-  "PORT-1003": {
-    status: "success",
-    portfolio_id: "PORT-1003",
-    insights: {
-      executive_summary: "High-beta growth portfolio generating +24.15% gains powered by EV sector momentum in Tata Motors and Zomato volume growth, offset by fintech regulatory drag.",
-      key_performance_drivers: [
-        {
-          symbol: "ZOMATO.NS",
-          impact: "POSITIVE",
-          explanation: "Blinkit quick-commerce expansion accelerated revenue growth, driving sharp upside re-rating."
-        },
-        {
-          symbol: "TATAMOTORS.NS",
-          impact: "POSITIVE",
-          explanation: "JLR margin expansion and domestic EV market leadership boosted equity returns."
-        },
-        {
-          symbol: "PAYTM.NS",
-          impact: "NEGATIVE",
-          explanation: "Payment gateway regulatory compliance headwinds weighed on fintech allocation P&L."
-        }
-      ],
-      risk_analysis: {
-        risk_level: "MODERATE",
-        primary_risks: [
-          "High Beta Volatility: New-age consumer internet stocks experience high price swings.",
-          "Regulatory Risk: Regulatory compliance changes in fintech space affect valuation multiples."
-        ],
-        mitigation_context: "High-growth portfolios benefit from dynamic trailing stop-losses and rebalancing into cash reserves after major rallies."
-      },
-      confidence_score: 0.94
-    },
-    summary: {
-      total_invested: 242500.00,
-      total_current_value: 301050.00,
-      total_pnl: 58550.00,
-      pnl_pct: 24.15
-    },
-    metadata: {
-      portfolio_id: "PORT-1003",
-      investor_name: "Ananya Roy",
-      risk_profile: "High Beta Consumer Growth"
-    },
-    sector_allocation: {
-      "Consumer Discretionary": 42.10,
-      "Automobile": 38.60,
-      "Financial Technology": 19.30
-    },
-    risk_metrics: {
-      annualized_volatility_pct: 28.4,
-      max_drawdown_pct: 18.6,
-      risk_flag: "MODERATE"
     }
   }
 };
@@ -195,7 +139,6 @@ export default function Dashboard({
     try {
       const url = `http://localhost:5000/api/portfolio/${portfolioId}/insights?benchmark=${selectedBenchmark}&refresh=${forceBypassCache || isForceRefresh}`;
       
-      // Inject Authorization Bearer token automatically via authFetch
       const response = await authFetch(url, {
         method: 'GET',
       });
@@ -224,7 +167,6 @@ export default function Dashboard({
     fetchInsights();
   }, [portfolioId, selectedBenchmark]);
 
-  // Handle explicit cache refresh button click
   const handleForceRefreshClick = () => {
     fetchInsights(true);
   };
@@ -251,10 +193,10 @@ export default function Dashboard({
     );
   }
 
-  // Extract nested properties gracefully
   const insightsObj = data?.insights || {};
   const drivers = insightsObj?.key_performance_drivers || insightsObj?.insights?.key_performance_drivers || [];
   const riskAnalysis = insightsObj?.risk_analysis || insightsObj?.insights?.risk_analysis || {};
+  const recommendationCards = insightsObj?.recommendation_cards || insightsObj?.insights?.recommendation_cards || [];
   const confidenceScore = insightsObj?.confidence_score || insightsObj?.insights?.confidence_score || 0.95;
   const promptHash = data?.prompt_hash || insightsObj?.prompt_hash || '';
 
@@ -276,7 +218,7 @@ export default function Dashboard({
           )}
         </div>
 
-        {/* Refresh AI Insights Button (Bypasses yfinance 15-min cache) */}
+        {/* Refresh AI Insights Button */}
         <button
           onClick={handleForceRefreshClick}
           className="btn-secondary px-4 py-2 text-xs font-bold flex items-center gap-2 cursor-pointer shadow-xs"
@@ -301,7 +243,6 @@ export default function Dashboard({
           summary={data?.summary} 
         />
         
-        {/* Module 4: Compliance Audit & Feedback Interaction Bar embedded under AI Insight Card */}
         <InsightFeedbackBar 
           portfolioId={portfolioId} 
           promptHash={promptHash} 
@@ -311,9 +252,9 @@ export default function Dashboard({
       {/* 2. Risk & Exposure Panel */}
       <RiskAlertBanner 
         riskAnalysis={riskAnalysis} 
-        riskMetrics={data?.risk_metrics}
-        sectorAllocation={data?.sector_allocation}
-        concentrationAlerts={data?.concentration_alerts}
+        riskMetrics={data?.risk_metrics || data?.analytics?.risk_metrics}
+        sectorAllocation={data?.sector_allocation || data?.analytics?.sector_allocation}
+        concentrationAlerts={data?.concentration_alerts || data?.analytics?.concentration_alerts}
       />
 
       {/* 3. Market Movement Explainer (Key Performance Drivers Grid) */}
@@ -336,13 +277,16 @@ export default function Dashboard({
             <PerformanceDriverCard 
               key={idx} 
               driver={driver} 
-              newsData={data?.holdings_news}
+              newsData={data?.holdings_news || data?.analytics?.holdings_news}
             />
           ))}
         </div>
       </section>
 
-      {/* 4. Operations / Debug Audit View */}
+      {/* 4. Explainable Recommendation Console (4 Structured Cards) */}
+      <ExplainableRecommendationCards cards={recommendationCards} />
+
+      {/* 5. Operations / Debug Audit View */}
       <DebugAuditPanel 
         rawData={data} 
         confidenceScore={confidenceScore} 

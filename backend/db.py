@@ -64,6 +64,29 @@ def init_db():
                 created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
             );
         """)
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS compliance_reviews (
+                id SERIAL PRIMARY KEY,
+                portfolio_id VARCHAR(50),
+                review_status VARCHAR(50) DEFAULT 'PENDING',
+                policy_flag VARCHAR(50) DEFAULT 'NORMAL',
+                reviewer_notes TEXT,
+                model_version VARCHAR(50),
+                prompt_hash VARCHAR(64),
+                reviewed_by VARCHAR(100),
+                updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+            );
+        """)
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS mcp_tool_execution_logs (
+                id SERIAL PRIMARY KEY,
+                tool_name VARCHAR(100) NOT NULL,
+                execution_time_ms NUMERIC,
+                status VARCHAR(20),
+                parameters_summary TEXT,
+                executed_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+            );
+        """)
     else:
         # SQLite schema
         cur.execute("""
@@ -86,11 +109,11 @@ def init_db():
         try:
             cur.execute("ALTER TABLE portfolios ADD COLUMN user_id INTEGER;")
         except Exception:
-            pass # Column already exists
+            pass
         try:
             cur.execute("ALTER TABLE portfolios ADD COLUMN updated_at DATETIME;")
         except Exception:
-            pass # Column already exists
+            pass
         cur.execute("""
             CREATE TABLE IF NOT EXISTS feedback_audit_logs (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -100,6 +123,29 @@ def init_db():
                 rating TEXT,
                 feedback_text TEXT,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            );
+        """)
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS compliance_reviews (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                portfolio_id TEXT,
+                review_status TEXT DEFAULT 'PENDING',
+                policy_flag TEXT DEFAULT 'NORMAL',
+                reviewer_notes TEXT,
+                model_version TEXT,
+                prompt_hash TEXT,
+                reviewed_by TEXT,
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            );
+        """)
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS mcp_tool_execution_logs (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                tool_name TEXT NOT NULL,
+                execution_time_ms REAL,
+                status TEXT,
+                parameters_summary TEXT,
+                executed_at DATETIME DEFAULT CURRENT_TIMESTAMP
             );
         """)
 
