@@ -1,0 +1,31 @@
+{
+  "portfolio_id": "PORT-1001",
+  "investor_name": "Vaibhav Pandey",
+  "investor_risk_profile": "Aggressive",
+  "holdings": [
+    {
+      "symbol": "TCS.NS",
+      "company_name": "Tata Consultancy Services",
+      "shares": 50,
+      "avg_buy_price": 3800.00,
+      "current_price": 4120.00,
+      "sector": "Technology"
+    },
+    {
+      "symbol": "INFY.NS",
+      "company_name": "Infosys Limited",
+      "shares": 100,
+      "avg_buy_price": 1450.00,
+      "current_price": 1820.00,
+      "sector": "Technology"
+    },
+    {
+      "symbol": "RELIANCE.NS",
+      "company_name": "Reliance Industries Ltd",
+      "shares": 30,
+      "avg_buy_price": 2500.00,
+      "current_price": 2900.00,
+      "sector": "Energy"
+    }
+  ]
+}

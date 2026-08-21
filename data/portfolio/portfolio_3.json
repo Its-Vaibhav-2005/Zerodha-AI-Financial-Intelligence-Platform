@@ -1,0 +1,31 @@
+{
+  "portfolio_id": "PORT-1003",
+  "investor_name": "Ananya Roy",
+  "investor_risk_profile": "Aggressive Growth",
+  "holdings": [
+    {
+      "symbol": "ZOMATO.NS",
+      "company_name": "Zomato Limited",
+      "shares": 500,
+      "avg_buy_price": 140.00,
+      "current_price": 210.00,
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "symbol": "TATAMOTORS.NS",
+      "company_name": "Tata Motors Ltd",
+      "shares": 100,
+      "avg_buy_price": 750.00,
+      "current_price": 1020.00,
+      "sector": "Automobile"
+    },
+    {
+      "symbol": "PAYTM.NS",
+      "company_name": "One97 Communications Ltd",
+      "shares": 150,
+      "avg_buy_price": 650.00,
+      "current_price": 410.00,
+      "sector": "Financial Technology"
+    }
+  ]
+}

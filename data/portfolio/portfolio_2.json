@@ -1,0 +1,39 @@
+{
+  "portfolio_id": "PORT-1002",
+  "investor_name": "Rahul Sharma",
+  "investor_risk_profile": "Moderate",
+  "holdings": [
+    {
+      "symbol": "HDFCBANK.NS",
+      "company_name": "HDFC Bank Ltd",
+      "shares": 80,
+      "avg_buy_price": 1520.00,
+      "current_price": 1640.00,
+      "sector": "Financial Services"
+    },
+    {
+      "symbol": "ICICIBANK.NS",
+      "company_name": "ICICI Bank Ltd",
+      "shares": 60,
+      "avg_buy_price": 950.00,
+      "current_price": 1180.00,
+      "sector": "Financial Services"
+    },
+    {
+      "symbol": "ITC.NS",
+      "company_name": "ITC Limited",
+      "shares": 200,
+      "avg_buy_price": 410.00,
+      "current_price": 490.00,
+      "sector": "Consumer Goods"
+    },
+    {
+      "symbol": "LT.NS",
+      "company_name": "Larsen & Toubro Ltd",
+      "shares": 20,
+      "avg_buy_price": 3200.00,
+      "current_price": 3650.00,
+      "sector": "Construction"
+    }
+  ]
+}
