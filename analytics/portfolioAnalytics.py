@@ -5,7 +5,11 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 import os
 from dotenv import load_dotenv
-from marketData import fetch_market_data, fetch_ticker_news
+
+try:
+    from analytics.marketData import fetch_market_data, fetch_ticker_news
+except ModuleNotFoundError:
+    from marketData import fetch_market_data, fetch_ticker_news
 
 load_dotenv()
 
@@ -16,22 +20,38 @@ class PortfolioAnalytics:
         self.df = pd.DataFrame(self.portfolio_data['holdings'])
 
     def _fetch_from_neon(self) -> dict:
-        """Fetches portfolio holdings directly from NeonDB PostgreSQL."""
-        conn = psycopg2.connect(os.getenv("NEON_DATABASE_URL"))
-        with conn.cursor(cursor_factory=RealDictCursor) as cur:
-            cur.execute("SELECT * FROM portfolios WHERE portfolio_id = %s", (self.portfolio_id,))
-            row = cur.fetchone()
-        conn.close()
-        
-        if not row:
-            raise ValueError(f"Portfolio {self.portfolio_id} not found in NeonDB.")
-        
-        return {
-            "portfolio_id": row["portfolio_id"],
-            "investor_name": row["investor_name"],
-            "risk_profile": row["risk_profile"],
-            "holdings": row["holdings"]
-        }
+        """Fetches portfolio holdings from NeonDB PostgreSQL with local JSON fallback."""
+        try:
+            db_url = os.getenv("NEON_DATABASE_URL")
+            if not db_url:
+                raise ValueError("NEON_DATABASE_URL missing")
+                
+            conn = psycopg2.connect(db_url)
+            with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                cur.execute("SELECT * FROM portfolios WHERE portfolio_id = %s", (self.portfolio_id,))
+                row = cur.fetchone()
+            conn.close()
+            
+            if row:
+                return {
+                    "portfolio_id": row["portfolio_id"],
+                    "investor_name": row["investor_name"],
+                    "risk_profile": row["risk_profile"],
+                    "holdings": row["holdings"]
+                }
+        except Exception as e:
+            print(f"[DB Warning] Could not connect to NeonDB ({e}). Falling back to local JSON data...")
+
+        # Fallback to local JSON file if DB connection fails
+        json_path = os.path.join(os.path.dirname(__file__), "../data/mock_portfolio_1.json")
+        with open(json_path, "r") as f:
+            data = json.load(f)
+            return {
+                "portfolio_id": data.get("portfolio_id", self.portfolio_id),
+                "investor_name": data.get("investor_name", "Vaibhav Pandey"),
+                "risk_profile": data.get("investor_risk_profile", "Aggressive"),
+                "holdings": data["holdings"]
+            }
 
     def generate_full_payload(self) -> dict:
         """Computes basic, sector, risk, and news context for the AI layer."""
