@@ -14,8 +14,10 @@ except ModuleNotFoundError:
 load_dotenv()
 
 class PortfolioAnalytics:
-    def __init__(self, portfolio_id: str):
+    def __init__(self, portfolio_id: str, benchmark: str = "^NSEI", force_refresh: bool = False):
         self.portfolio_id = portfolio_id
+        self.benchmark = benchmark
+        self.force_refresh = force_refresh
         self.portfolio_data = self._fetch_from_neon()
         self.df = pd.DataFrame(self.portfolio_data['holdings'])
 
@@ -35,15 +37,21 @@ class PortfolioAnalytics:
             if row:
                 return {
                     "portfolio_id": row["portfolio_id"],
-                    "investor_name": row["investor_name"],
-                    "risk_profile": row["risk_profile"],
+                    "investor_name": row.get("investor_name", "Valued Investor"),
+                    "risk_profile": row.get("risk_profile", "Moderate"),
                     "holdings": row["holdings"]
                 }
         except Exception as e:
             print(f"[DB Warning] Could not connect to NeonDB ({e}). Falling back to local JSON data...")
 
         # Fallback to local JSON file if DB connection fails
-        json_path = os.path.join(os.path.dirname(__file__), "../data/mock_portfolio_1.json")
+        port_num = self.portfolio_id.replace("PORT-100", "").replace("PORT-", "")
+        if not port_num:
+            port_num = "1"
+        json_path = os.path.join(os.path.dirname(__file__), f"../data/portfolio/portfolio_{port_num}.json")
+        if not os.path.exists(json_path):
+            json_path = os.path.join(os.path.dirname(__file__), "../data/portfolio/portfolio_1.json")
+
         with open(json_path, "r") as f:
             data = json.load(f)
             return {
@@ -57,8 +65,12 @@ class PortfolioAnalytics:
         """Computes basic, sector, risk, and news context for the AI layer."""
         symbols = self.df['symbol'].tolist()
         
-        # 1. Fetch Market Prices & News
-        market_df = fetch_market_data(symbols)
+        # 1. Fetch Market Prices & News using configured benchmark and force_refresh flag
+        market_df = fetch_market_data(
+            symbols, 
+            benchmark=self.benchmark, 
+            force_refresh=self.force_refresh
+        )
         all_news = {sym: fetch_ticker_news(sym) for sym in symbols}
 
         # 2. Holdings P&L Calculation
@@ -77,27 +89,32 @@ class PortfolioAnalytics:
                                 for sec, pct in sector_pcts.items() if pct > 40.0]
 
         # 4. Volatility & Benchmark Relative Return
-        daily_returns = market_df.pct_change().dropna()
+        daily_returns = market_df.pct_change(fill_method=None).dropna()
         weights = (self.df.set_index('symbol')['current_value'] / total_current).to_dict()
         
         portfolio_daily = sum(daily_returns[sym] * weights.get(sym, 0) for sym in symbols if sym in daily_returns)
-        volatility = float(portfolio_daily.std() * np.sqrt(252) * 100)
+        volatility = float(portfolio_daily.std() * np.sqrt(252) * 100) if not portfolio_daily.empty else 0.0
         
-        cum_returns = (1 + portfolio_daily).cumprod()
-        peak = cum_returns.cummax()
-        max_drawdown = float(((cum_returns - peak) / peak).min() * 100)
+        if not portfolio_daily.empty:
+            cum_returns = (1 + portfolio_daily).cumprod()
+            peak = cum_returns.cummax()
+            max_drawdown = float(((cum_returns - peak) / peak).min() * 100)
+        else:
+            max_drawdown = 0.0
 
         return {
             "metadata": {
                 "portfolio_id": self.portfolio_id,
                 "investor_name": self.portfolio_data["investor_name"],
-                "risk_profile": self.portfolio_data["risk_profile"]
+                "risk_profile": self.portfolio_data["risk_profile"],
+                "benchmark": self.benchmark,
+                "force_refresh": self.force_refresh
             },
             "summary": {
                 "total_invested": round(total_invested, 2),
                 "total_current_value": round(total_current, 2),
                 "total_pnl": round(total_pnl, 2),
-                "pnl_pct": round((total_pnl / total_invested) * 100, 2)
+                "pnl_pct": round((total_pnl / total_invested) * 100, 2) if total_invested > 0 else 0.0
             },
             "sector_allocation": sector_pcts,
             "concentration_alerts": concentration_alerts,

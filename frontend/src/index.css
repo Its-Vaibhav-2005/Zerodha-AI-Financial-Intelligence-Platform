@@ -1,111 +1,185 @@
+@import "tailwindcss";
+
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  /* Design System Color Tokens (Dark Obsidian Base) */
+  --bg-base: #0a0d14;            /* 60% Base Obsidian Background */
+  --bg-surface: #121624;         /* 30% Card & Structural Surface */
+  --bg-surface-hover: #1a2035;   /* Surface Hover */
+  --bg-input: #161b2e;           /* Input & Badge Surface */
+  --border-subtle: #222b42;      /* Structural Borders */
+  --border-highlight: #3b82f6;   /* Active/Hover Borders */
+  
+  --text-primary: #f8fafc;       /* Main Headlines */
+  --text-secondary: #94a3b8;     /* Body & Subheaders */
+  --text-muted: #64748b;         /* Captions & Labels */
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  /* Design System Palette Colors */
+  --color-green-primary: #00e676;
+  --color-green-muted: #10b981;
+  --color-purple-secondary: #8b5cf6;
+  --color-purple-light: #a78bfa;
+  --color-red-tertiary: #ff5252;
+  --color-red-light: #f87171;
+  --color-blue-comp1: #3b82f6;
+  --color-blue-light: #60a5fa;
+  --color-yellow-comp2: #fbbf24;
+  --color-yellow-light: #fcd34d;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  /* Legacy Fallback Mappings */
+  --accent-blue: #3b82f6;
+  --accent-orange: #fbbf24;
+  --accent-emerald: #00e676;
+  --accent-rose: #ff5252;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
+/* Light Theme Overrides */
+.light {
+  --bg-base: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-surface-hover: #f1f5f9;
+  --bg-input: #e2e8f0;
+  --border-subtle: #e2e8f0;
+  --border-highlight: #cbd5e1;
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+
+  --color-green-primary: #059669;
+  --color-purple-secondary: #7c3aed;
+  --color-red-tertiary: #dc2626;
+  --color-blue-comp1: #2563eb;
+  --color-yellow-comp2: #d97706;
+
+  --accent-blue: #2563eb;
+  --accent-orange: #d97706;
+  --accent-emerald: #059669;
+  --accent-rose: #dc2626;
 }
 
 body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
   margin: 0;
+  padding: 0;
+  transition: background-color 0.25s ease, color 0.25s ease;
+  overflow-x: hidden;
 }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-highlight);
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+/* Surface Cards & Geometric Aesthetics */
+.surface-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 1.25rem;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
+.surface-card-hover:hover {
+  background-color: var(--bg-surface-hover);
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.3);
 }
 
-code,
-.counter {
-  font-family: var(--mono);
+/* Design System Pill Badges */
+.pill-badge {
   display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+.pill-green {
+  background-color: rgba(0, 230, 118, 0.12);
+  border: 1px solid rgba(0, 230, 118, 0.3);
+  color: var(--color-green-primary);
+}
+
+.pill-purple {
+  background-color: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: var(--color-purple-light);
+}
+
+.pill-red {
+  background-color: rgba(255, 82, 82, 0.12);
+  border: 1px solid rgba(255, 82, 82, 0.3);
+  color: var(--color-red-tertiary);
+}
+
+.pill-blue {
+  background-color: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: var(--color-blue-light);
+}
+
+.pill-yellow {
+  background-color: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  color: var(--color-yellow-light);
+}
+
+/* Primary Action Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, #00e676 0%, #10b981 100%);
+  color: #041a10;
+  font-weight: 700;
+  border-radius: 0.875rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0, 230, 118, 0.25);
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 230, 118, 0.4);
+}
+
+/* Secondary Action Buttons */
+.btn-secondary {
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  border-radius: 0.875rem;
+  transition: all 0.2s ease;
+}
+.btn-secondary:hover {
+  background: var(--bg-surface-hover);
+  border-color: var(--color-purple-secondary);
+  color: var(--color-purple-light);
+}
+
+/* Shimmer Pulse for Loaders */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, var(--bg-surface) 25%, var(--bg-surface-hover) 50%, var(--bg-surface) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite;
 }
