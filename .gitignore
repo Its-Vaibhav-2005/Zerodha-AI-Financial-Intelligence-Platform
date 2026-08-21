@@ -37,6 +37,7 @@ htmlcov/
 # Frontend (Node / JS / Frameworks)
 # ==========================================
 node_modules/
+/frontend/node_modules/
 /frontend/dist/
 /frontend/build/
 /frontend/.next/
