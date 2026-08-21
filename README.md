@@ -85,7 +85,7 @@ graph TD
 
 The platform includes a dedicated, schema-bound **Model Context Protocol (MCP)** Server implementation (`mcp_server/`) conforming to protocol specification `v2025-06-18`.
 
-![Overview of the 7 Governed MCP Tools](docs/images/mcp_tools_overview.svg)
+![Overview of the 7 Governed MCP Tools](docs/images/mcp_tools_overview.png)
 
 ### Governed Tool Registry
 
