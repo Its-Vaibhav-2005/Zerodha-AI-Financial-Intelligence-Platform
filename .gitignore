@@ -32,6 +32,8 @@ env/
 .coverage
 htmlcov/
 .mypy_cache/
+.env
+/backend/.env
 
 # ==========================================
 # Frontend (Node / JS / Frameworks)
