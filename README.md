@@ -138,6 +138,19 @@ npm run dev
 # Frontend runs at http://localhost:5173
 ```
 
+### Docker Quickstart (Unified Frontend + Backend Container)
+Run the entire fullstack platform (React SPA + Flask Backend + Governed MCP Server) with a single command:
+
+```bash
+# Option A: Using Docker Compose
+docker compose up --build
+
+# Option B: Using Docker CLI
+docker build -t zerodha-ai-platform .
+docker run -p 5000:5000 --env-file .env zerodha-ai-platform
+```
+Open **http://localhost:5000** in your browser to access the complete application.
+
 ---
 
 ## 6. Automated Test Suite

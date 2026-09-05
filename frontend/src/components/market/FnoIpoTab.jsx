@@ -12,6 +12,7 @@ import {
   Calendar,
   Compass
 } from 'lucide-react';
+import { API_BASE_URL } from '../../config/api';
 
 export default function FnoIpoTab({ userRiskProfile = "Aggressive Tech Growth", onNavigateToDashboard = () => {} }) {
   const [data, setData] = useState(null);
@@ -21,7 +22,7 @@ export default function FnoIpoTab({ userRiskProfile = "Aggressive Tech Growth", 
   const fetchFnoIpoData = async () => {
     setIsLoading(true);
     try {
-      const url = `http://localhost:5000/api/market/fno-ipo?risk_profile=${encodeURIComponent(userRiskProfile)}`;
+      const url = `${API_BASE_URL}/api/market/fno-ipo?risk_profile=${encodeURIComponent(userRiskProfile)}`;
       const res = await fetch(url);
       if (res.ok) {
         const json = await res.json();

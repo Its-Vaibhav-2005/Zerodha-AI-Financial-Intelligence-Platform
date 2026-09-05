@@ -5,7 +5,7 @@ import json
 import time
 import datetime
 import pandas as pd
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flask_bcrypt import Bcrypt
@@ -949,6 +949,34 @@ def get_mutual_funds_data():
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
+# ---------------------------------------------------------
+# Static Frontend Serving (SPA Single-Container Support)
+# ---------------------------------------------------------
+DIST_DIR = os.path.join(PROJECT_ROOT, "frontend", "dist")
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve_frontend(path):
+    if path.startswith("api/"):
+        return jsonify({"status": "error", "message": f"API endpoint '/{path}' not found"}), 404
+    
+    file_path = os.path.join(DIST_DIR, path)
+    if path != "" and os.path.exists(file_path) and os.path.isfile(file_path):
+        return send_from_directory(DIST_DIR, path)
+    
+    if os.path.exists(os.path.join(DIST_DIR, "index.html")):
+        return send_from_directory(DIST_DIR, "index.html")
+    
+    return jsonify({
+        "status": "success",
+        "message": "Zerodha AI Financial Intelligence Platform API is running.",
+        "note": "Frontend build directory not found. Access API endpoints under /api/*"
+    }), 200
+
+
 if __name__ == '__main__':
-    print("Starting Zerodha AI Financial Intelligence API with MCP on port 5000...")
-    app.run(port=5000, debug=True)
+    port = int(os.getenv("PORT", 5000))
+    host = os.getenv("HOST", "0.0.0.0")
+    debug = os.getenv("FLASK_DEBUG", "false").lower() == "true"
+    print(f"Starting Zerodha AI Financial Intelligence Platform on {host}:{port}...")
+    app.run(host=host, port=port, debug=debug)

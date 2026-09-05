@@ -9,6 +9,7 @@ import RelativePerformanceCard from './RelativePerformanceCard';
 import InsightFeedbackBar from './feedback/InsightFeedbackBar';
 import ExplainableRecommendationCards from './recommendations/ExplainableRecommendationCards';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE_URL } from '../config/api';
 import { RefreshCw, Sparkles, AlertTriangle, Zap } from 'lucide-react';
 
 const MOCK_FALLBACK_DATA = {
@@ -137,7 +138,7 @@ export default function Dashboard({
     setIsDemoMode(false);
 
     try {
-      const url = `http://localhost:5000/api/portfolio/${portfolioId}/insights?benchmark=${selectedBenchmark}&refresh=${forceBypassCache || isForceRefresh}`;
+      const url = `${API_BASE_URL}/api/portfolio/${portfolioId}/insights?benchmark=${selectedBenchmark}&refresh=${forceBypassCache || isForceRefresh}`;
       
       const response = await authFetch(url, {
         method: 'GET',

@@ -8,6 +8,7 @@ import ComplianceReviewPanel from './components/compliance/ComplianceReviewPanel
 import { AuthProvider, useAuth } from './context/AuthContext';
 import AuthModal from './components/auth/AuthModal';
 import PortfolioUploadModal from './components/upload/PortfolioUploadModal';
+import { API_BASE_URL } from './config/api';
 import { 
   Cpu, 
   ShieldCheck, 
@@ -53,7 +54,7 @@ function AppContent() {
   const fetchUserPortfolios = async () => {
     if (!isAuthenticated) return;
     try {
-      const url = user?.id ? `http://localhost:5000/api/portfolios?user_id=${user.id}` : 'http://localhost:5000/api/portfolios';
+      const url = user?.id ? `${API_BASE_URL}/api/portfolios?user_id=${user.id}` : `${API_BASE_URL}/api/portfolios`;
       const res = await authFetch(url);
       if (res.ok) {
         const json = await res.json();

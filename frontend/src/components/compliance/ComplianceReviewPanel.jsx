@@ -12,6 +12,7 @@ import {
   XCircle,
   Flag
 } from 'lucide-react';
+import { API_BASE_URL } from '../../config/api';
 
 export default function ComplianceReviewPanel() {
   const [auditTrail, setAuditTrail] = useState([]);
@@ -29,7 +30,7 @@ export default function ComplianceReviewPanel() {
   const fetchAuditTrail = async () => {
     try {
       setIsRefreshing(true);
-      const res = await fetch('http://localhost:5000/api/compliance/audit-trail');
+      const res = await fetch(`${API_BASE_URL}/api/compliance/audit-trail`);
       if (res.ok) {
         const json = await res.json();
         setAuditTrail(json.audit_trail || []);
@@ -83,7 +84,7 @@ export default function ComplianceReviewPanel() {
       setSubmitSuccessMsg('');
       const selectedItem = auditTrail.find(a => a.id === selectedAuditId);
 
-      const res = await fetch('http://localhost:5000/api/compliance/review', {
+      const res = await fetch(`${API_BASE_URL}/api/compliance/review`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

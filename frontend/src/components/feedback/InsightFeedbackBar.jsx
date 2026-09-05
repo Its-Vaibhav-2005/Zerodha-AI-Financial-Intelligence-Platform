@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { API_BASE_URL } from '../../config/api';
 import { ThumbsUp, Flag, CheckCircle2, Send, AlertTriangle, X, ShieldAlert } from 'lucide-react';
 
 export default function InsightFeedbackBar({ portfolioId = 'PORT-1001', promptHash = '' }) {
@@ -16,7 +17,7 @@ export default function InsightFeedbackBar({ portfolioId = 'PORT-1001', promptHa
     if (ratingState === 'helpful') return;
     setIsSubmitting(true);
     try {
-      await authFetch('http://localhost:5000/api/feedback', {
+      await authFetch(`${API_BASE_URL}/api/feedback`, {
         method: 'POST',
         body: JSON.stringify({
           portfolio_id: portfolioId,
@@ -39,7 +40,7 @@ export default function InsightFeedbackBar({ portfolioId = 'PORT-1001', promptHa
     setIsSubmitting(true);
     try {
       const fullText = `${reportReason}${customComment ? `: ${customComment}` : ''}`;
-      await authFetch('http://localhost:5000/api/feedback', {
+      await authFetch(`${API_BASE_URL}/api/feedback`, {
         method: 'POST',
         body: JSON.stringify({
           portfolio_id: portfolioId,

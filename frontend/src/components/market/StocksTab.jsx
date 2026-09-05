@@ -13,6 +13,7 @@ import {
   ShieldAlert,
   Compass
 } from 'lucide-react';
+import { API_BASE_URL } from '../../config/api';
 
 export default function StocksTab({ userRiskProfile = "Aggressive Tech Growth", onNavigateToDashboard = () => {} }) {
   const [selectedSymbol, setSelectedSymbol] = useState('^NSEI');
@@ -58,7 +59,7 @@ export default function StocksTab({ userRiskProfile = "Aggressive Tech Growth", 
   const fetchMarketData = async () => {
     setIsLoading(true);
     try {
-      const url = `http://localhost:5000/api/market/overview?symbol=${encodeURIComponent(selectedSymbol)}&period=${period}`;
+      const url = `${API_BASE_URL}/api/market/overview?symbol=${encodeURIComponent(selectedSymbol)}&period=${period}`;
       const res = await fetch(url);
       if (res.ok) {
         const json = await res.json();

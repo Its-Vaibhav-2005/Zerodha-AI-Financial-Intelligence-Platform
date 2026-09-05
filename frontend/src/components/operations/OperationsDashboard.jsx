@@ -14,6 +14,7 @@ import {
   ThumbsUp,
   BarChart3
 } from 'lucide-react';
+import { API_BASE_URL } from '../../config/api';
 
 export default function OperationsDashboard() {
   const [healthData, setHealthData] = useState(null);
@@ -32,9 +33,9 @@ export default function OperationsDashboard() {
     try {
       setIsRefreshing(true);
       const [healthRes, metricsRes, toolsRes] = await Promise.all([
-        fetch('http://localhost:5000/api/operations/health').catch(() => null),
-        fetch('http://localhost:5000/api/operations/metrics').catch(() => null),
-        fetch('http://localhost:5000/api/mcp/tools').catch(() => null)
+        fetch(`${API_BASE_URL}/api/operations/health`).catch(() => null),
+        fetch(`${API_BASE_URL}/api/operations/metrics`).catch(() => null),
+        fetch(`${API_BASE_URL}/api/mcp/tools`).catch(() => null)
       ]);
 
       if (healthRes && healthRes.ok) {
@@ -102,7 +103,7 @@ export default function OperationsDashboard() {
         return;
       }
 
-      const res = await fetch('http://localhost:5000/api/mcp/tools/execute', {
+      const res = await fetch(`${API_BASE_URL}/api/mcp/tools/execute`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

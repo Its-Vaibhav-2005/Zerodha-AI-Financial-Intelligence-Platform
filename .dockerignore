@@ -1,0 +1,32 @@
+# Version control
+.git
+.gitignore
+
+# Node & Frontend build artifacts
+frontend/node_modules
+frontend/dist
+frontend/.eslintcache
+
+# Python artifacts
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache
+.coverage
+htmlcov
+.venv
+env/
+venv/
+ENV/
+
+# IDE and OS files
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+
+# Documentation & Assets not needed at runtime
+docs/
+deployment/
+tests/

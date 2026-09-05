@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { API_BASE_URL } from '../../config/api';
 import { UploadCloud, FileText, CheckCircle2, AlertCircle, X, Sparkles, RefreshCw, ChevronRight } from 'lucide-react';
 
 export default function PortfolioUploadModal({ isOpen, onClose, onUploadSuccess }) {
@@ -66,7 +67,7 @@ export default function PortfolioUploadModal({ isOpen, onClose, onUploadSuccess 
       formData.append('risk_profile', riskProfile);
       formData.append('user_id', user?.id ? String(user.id) : '1');
 
-      const response = await authFetch('http://localhost:5000/api/portfolio/upload', {
+      const response = await authFetch(`${API_BASE_URL}/api/portfolio/upload`, {
         method: 'POST',
         body: formData,
       });

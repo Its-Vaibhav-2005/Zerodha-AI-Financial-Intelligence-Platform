@@ -10,6 +10,7 @@ import {
   ArrowUpRight,
   ShieldAlert
 } from 'lucide-react';
+import { API_BASE_URL } from '../../config/api';
 
 export default function MutualFundsTab({ userRiskProfile = "Aggressive Tech Growth", onNavigateToDashboard = () => {} }) {
   const [data, setData] = useState(null);
@@ -19,7 +20,7 @@ export default function MutualFundsTab({ userRiskProfile = "Aggressive Tech Grow
   const fetchFunds = async () => {
     setIsLoading(true);
     try {
-      const url = `http://localhost:5000/api/market/mutual-funds?risk_profile=${encodeURIComponent(userRiskProfile)}`;
+      const url = `${API_BASE_URL}/api/market/mutual-funds?risk_profile=${encodeURIComponent(userRiskProfile)}`;
       const res = await fetch(url);
       if (res.ok) {
         const json = await res.json();

@@ -16,3 +16,12 @@ python backend/app.py
    - `GEMINI_API_KEY`: Your Google AI Studio API key
    - `NEON_DATABASE_URL`: Your PostgreSQL connection string
    - `JWT_SECRET_KEY`: Production secret string
+
+## 3. Deploy with Docker
+```bash
+# Build unified image
+docker build -t zerodha-ai-platform .
+
+# Run container (frontend + backend unified on port 5000)
+docker run -d -p 5000:5000 --env-file .env --name zerodha-app zerodha-ai-platform
+```
